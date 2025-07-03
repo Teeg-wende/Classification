@@ -1,0 +1,346 @@
+--- 
+title: "Projet"
+subtitle: "Apprentissage non supervisé"
+date: "Date de rendu du projet : `r format(Sys.time(), '%Y-%m-%d %H:%M:%S')`"
+author: <span> 22410464 OUEDRAOGO Teeg-wendé Inoussa 
+        <br/> 22407680 HASHAZINKA Orlana <br/> 
+        22402636 MITOSSEDE Séphora </span>
+institute: Université Rennes 2
+favicon: "favicon.jpg" 
+site: bookdown::bookdown_site
+---
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, comment = FALSE, message = FALSE)
+library(funModeling) # df_status()
+library(tidyverse) # %>% et toutes fonctions de manip de la base
+library(readxl) # read_csv()
+library(VIM) # kNN()
+library(kableExtra) # kable()
+library(Metrics)    # rmse (Root Mean Squared Error)
+library(mclust)
+library(jsonlite)
+library(factoextra) # PCA pour K-means
+library(cluster) # Modele de mélance
+library(kernlab) # Clustering spectral
+
+source("fonctions.R") # Definitions de certaines fonctions importantes
+set.seed(123)
+```
+
+
+# Prétraitement des Données
+
+## Description des variables
+
+```{r manipulation_data}
+df <- read_csv("data/bird.csv")
+description_data <- df_status(df, print_results = FALSE)
+```
+
+
+|     Le tableau 1 présente le résumé des variables de 420 individus, l’analyse des données montre que plusieurs variables présentent des valeurs manquantes (colonne p_na), avec un pourcentage maximal de 0,71 pour la variable ulnal. Toutefois, pour la majorité des variables, le taux de valeurs manquantes est inférieur à 10 %. Selon Schafer (1997), lorsque le taux de valeurs manquantes est modéré (inférieur à 10 %), il est acceptable de les imputer à l’aide de méthodes statistiques simples. Par conséquent, une stratégie d’imputation peut être mise en place sans risque majeur de biais.
+
+\
+
+```{r tableau}
+description_data %>%
+  kbl(caption = "\\label{data_describe} Description des variables de la base bird") %>%
+  kable_paper(full_width = F) %>%
+  column_spec(5, color = "white",
+              background = spec_color(description_data$p_na, end = 0.7),
+              popover = paste("am:", description_data$p_na))
+```
+
+\
+
+**Méthode d'imputation choisie** : k-nearest neighbors ou knn
+
+Les variables comme huml, humw, ulnal, ulnaw, sont morphologiques et souvent liées entre elles (par exemple, des longueurs et des largeurs d’os), ce qui permet au KNN de trouver des voisins similaires de façon pertinente.
+
+## Les lignes incomplètes
+
+```{r na_rows, echo=TRUE, results='markup'}
+ligne_na <- df %>%
+  filter(rowSums(is.na(.))>0)
+
+id <- select(ligne_na, id) %>% pull() # Les numeros de lignes id contenant NA
+na_positions <- which(is.na(ligne_na), arr.ind = TRUE) # Les cellules contenant NA
+
+ligne_na
+```
+
+## Imputation knn
+
+### Choix du meilleur k
+
+Pour choisir le meilleur k pour l'imputation par k plus proches voisins (kNN), on a masqué aléatoirement 10 % des valeurs non manquantes de chaque variable avec des NA. Ensuite, on a testé différentes valeurs de k (de 1 à 10) pour imputer ces valeurs manquantes, et on a calculé l’erreur (RMSE) entre les valeurs réelles et imputées. Le k qui donne la plus petite erreur moyenne est sélectionné comme meilleur k.
+
+```{r tablea}
+resultats_k <- trouver_meilleur_k_par_variable(df)
+as.data.frame(unlist(resultats_k)) %>%
+  rename("k"="unlist(resultats_k)") %>%
+  t() %>%
+  kbl(caption = "\\label{meilleur_k_par_variable} Meilleur k d'imputation pour chaque variable") %>%
+  kable_paper(full_width = F)
+```
+
+\
+
+Pour sélectionner un k unique à utiliser globalement, nous avons choisi le k le plus fréquent parmi les meilleurs k individuels. Cette méthode permet de retenir une valeur de k qui fonctionne bien pour la majorité des variables, tout en assurant une imputation cohérente et simple à appliquer à l'ensemble du jeu de données, donc k = 6.
+
+```{r meilleur_k}
+global_k <- as.numeric(names(sort(table(unlist(resultats_k)), decreasing = TRUE)[1]))
+```
+
+\
+
+### Application du knn
+
+```{r knn, echo=TRUE}
+df_imputed <- kNN(data = df, variable = names(resultats_k), k = global_k, imp_var = FALSE)
+```
+
+\
+
+```{r results='hold'}
+df_na_imputed <- df_imputed[df_imputed$id %in% id,]
+df_na_imputed_copie <- df_na_imputed %>% mutate(across(everything(), as.character))
+for (i in seq_len(nrow(na_positions))) {
+  row <- na_positions[i, "row"]
+  col <- na_positions[i, "col"]
+  df_na_imputed_copie[row, col] <- cell_spec(df_na_imputed_copie[row, col], background = "lightblue", color = "black")
+}
+
+# Affichage
+kable(df_na_imputed_copie, escape = FALSE, format = "html", caption = "Cellules imputées colorées") %>%
+  kable_styling(full_width = FALSE)
+
+```
+
+## Normalisation de la base
+
+```{r echo=TRUE}
+df_scale <- scale(select(df_imputed, -c(id, type)))
+head(df_scale)
+```
+
+
+# Classification des Oiseaux
+
+## Classification Ascendante Hiérarchique
+
+**Objectif** : Créer des groupes homogènes, la méthode de Ward ou le lien complet est préférable. Neanmoins testons plusieurs critères de fusion et cherchons à retenir le meilleur.
+
+```{r cah, echo=TRUE}
+dist_matrix <- dist(df_scale)
+methods <- c("single", "complete", "average", "ward.D2") # Méthodes de fusion
+hc_list <- list() # Liste pour stocker les résultats
+
+# Application de la CAH avec chaque méthode
+for (m in methods) {
+  hc <- hclust(dist_matrix, method = m)
+  hc_list[[m]] <- hc
+}
+
+ward_clusters <- cutree(hc_list[["ward.D2"]], k = 4)
+df$ward_clusters <- ward_clusters
+```
+
+## K-means
+
+### Méthode du coude pour choisir k
+
+```{r}
+inertia_list <- c()
+
+k_list <- 1:9
+
+#  Boucle sur les différentes valeurs de k
+for (k in k_list) {
+  result <- kmeans(df_scale, centers = k, nstart = 10)
+  inertia_list <- c(inertia_list, result$tot.withinss)
+}
+
+# Tracer de la courbe du coude
+plot(k_list, inertia_list, type = "b", pch = 19,
+     xlab = "Nombre de clusters (k)", ylab = "Inertie intra-cluster", 
+     main = "Méthode du coude - Données oiseaux")
+```
+
+\
+
+**choix du k** : 3
+
+### Clustering avec le k choisi
+
+```{r echo=TRUE}
+kmean_clusters <- kmeans(df_scale, centers = 3, nstart = 25)
+df$kmean_clusters <- as.factor(kmean_clusters$cluster)
+```
+
+## Modèles de mélanges
+
+```{r echo=TRUE}
+gmm <- Mclust(df_scale) # Application du modèle de mélange gaussien
+df$melange_clusters <- gmm$classification
+```
+
+## Clustering spectral
+
+### Choix du meilleur k (Méthode de silhouette)
+
+```{r }
+sil_width <- numeric(10)
+for (k in 2:10) {
+  kmeans_model <- kmeans(df_scale, centers = k)
+  sil_width[k] <- mean(silhouette(kmeans_model$cluster, dist(df_scale))[, 3])
+}
+
+plot(2:10, sil_width[2:10], type = "b", pch = 19, xlab = "Nombre de clusters (k)", ylab = "Largeur de silhouette moyenne", main = "Analyse de la silhouette")
+```
+
+**choix du k** : 6
+
+```{r echo=TRUE}
+spectral_res <- specc(df_scale, centers = 6)
+df$spectral_cluster <- as.factor(spectral_res)
+```
+
+# Comparaison des Résultats
+
+## CAH
+
+Les résultats obtenus avec la CAH varient selon la méthode de fusion utilisée. La méthode single produit des clusters peu pertinents en raison de l’effet de chaînage. En revanche, ward.D2 génère des clusters bien séparés et compacts, ce qui en fait la méthode hiérarchique la plus convaincante dans ce cas.
+
+```{r }
+
+par(mfrow = c(2,2), mar = c(4,4,2,1)) # Visualisation des dendrogrammes
+for (m in methods) {
+  plot(hc_list[[m]], main = paste("Méthode de fusion :", m),xlab = "", sub = "", cex = 0.9)
+  rect.hclust(hc_list[[m]], k = 3, border = 2:4) # Découpe en 3 clusters
+}
+# par(mfrow = c(1,1))
+```
+
+## K-means
+
+K-means affiche également de bons résultats, avec trois groupes distincts visibles dans la projection PCA. Toutefois, il repose sur l’hypothèse de clusters sphériques et peut être sensible aux points initiaux.
+
+```{r}
+pca <- prcomp(df_scale)
+
+pca_data <- data.frame(pca$x[, 1:2],
+                       cluster = df$kmean_clusters,
+                       type = df$type)
+
+
+# Visualiser les clusters
+plot(pca_data$PC1, pca_data$PC2, col = pca_data$cluster, pch = 19,
+     xlab = "PC1", ylab = "PC2", main = "Projection PCA des clusters (k-means)")
+legend("topright", legend = levels(pca_data$cluster), col = 1:6, pch = 19)
+points(kmean_clusters$centers %*% pca$rotation[, 1:2], 
+       col = "blue",     # couleur bleue
+       pch = 18,          # losange
+       cex = 3)           # taille du symbole (1 = normal, ici 3 = plus gros)
+```
+
+## Méthode de mélanges
+
+Le modèle de mélange gaussien permet de modéliser les données comme une combinaison de plusieurs lois normales. L’analyse du critère BIC montre que le modèle optimal comporte 3 composantes, ce qui est cohérent avec les autres méthodes (K-means, CAH). Le modèle VEV ou similaire offre la meilleure valeur de BIC. La matrice de dispersion indique une séparation claire entre les clusters, avec des formes elliptiques qui s’ajustent bien à la structure des données, ce qui constitue un avantage par rapport à K-means qui impose des clusters sphériques. Ce modèle est donc particulièrement adapté lorsque la forme et l’orientation des groupes varient.
+
+```{r}
+summary(gmm) # Résumé du modèle choisi 
+plot(gmm, what = "classification")  # classification finale
+plot(gmm, what = "BIC")             # pour justifier le nombre de groupes
+```
+
+## Clustering spectral
+
+Le Clustering spectral présente six clusters, une séparation claire entre certains clusters, notamment le Cluster 1 (rouge) et le Cluster 3 (vert). Certains clusters se chevauchent, ce qui peut indiquer que certaines groupes de données sont moins distincts.
+
+```{r}
+# table(spectral_res)
+colors <- c("red","green","blue","pink", "black", "darkblue")
+plot(df_scale, col=colors[spectral_res], pch=19, main="Clustering spectral avec (6 clusters)")
+legend("topright", legend=paste("Cluster", 1:6), col=colors, pch=19)
+```
+
+## Conclusion
+
+Chaque méthode de clustering produit des résultats variés en termes de séparation et de distinctivité des clusters.
+Clustering spectral et K-means semblent offrir de bons résultats. Les méthodes de fusion montrent une hiérarchie différente qui peut également être pertinente.
+
+
+# Clusters vs Classes Réelles
+
+## CAH
+
+Le croisement entre les clusters morphologiques et les types écologiques met en évidence des tendances intéressantes. Le cluster 2, le plus important en effectif, regroupe majoritairement des percheurs et chanteurs (types P et SO), ce qui témoigne de morphologies légères et adaptées à la vie arboricole. Le cluster 1, quant à lui, combine nageurs, échassiers et rapaces, indiquant des oiseaux à morphologies plus robustes ou spécialisées (par exemple, pour la pêche ou la chasse). Le cluster 3 contient presque exclusivement des nageurs et rapaces, soulignant une autre forme d’adaptation morphologique. Enfin, le cluster 4, très restreint, semble rassembler des individus atypiques, peut-être isolés morphologiquement des grandes tendances.
+
+```{r echo=TRUE}
+# Tableau croisé entre les clusters et les types
+table(df$ward_clusters, df$type)
+```
+
+## K-means
+
+Le cluster 3 regroupe majoritairement les oiseaux de type SO (125/235), indiquant une bonne cohérence morphologique pour cette classe. Le cluster 1 contient principalement des oiseaux SW (56) et W (32), montrant un regroupement partiel basé sur des morphologies aquatiques. En revanche, le cluster 3 est plus hétérogène, partagé entre R (19) et SW (33), ce qui révèle un chevauchement morphologique entre rapaces et nageurs. Globalement, les clusters reflètent certaines tendances écologiques, mais avec des recouvrements notables.
+
+```{r echo=TRUE}
+table(df$kmean_clusters, df$type)
+```
+
+## Méthode de mélanges
+
+Le croisement entre les clusters issus du modèle de mélange gaussien et les classes écologiques connues confirme la capacité du GMM à capturer des tendances morphologiques cohérentes. Certains clusters, comme le cluster 9 (66 songbirds) ou le cluster 3 (12 nageurs), correspondent presque parfaitement à un type écologique, traduisant une forte homogénéité morphologique. D’autres, comme le cluster 7, apparaissent plus mixtes, regroupant plusieurs types, ce qui peut refléter une zone de transition morphologique ou une plus grande variabilité au sein du groupe. Globalement, la méthode de mélange permet une classification plus fine et mieux adaptée à la diversité biologique, en révélant des sous-structures que la CAH ne distinguait pas aussi clairement.
+
+
+```{r echo=TRUE}
+table(df$melange_clusters, df$type)
+```
+
+## Clustering spectral
+
+Cette répartition montre que les clusters ne correspondent pas exactement aux types réels, mais certains groupes sont mieux identifiés que d'autres (le cluster 1 par exemple)
+
+```{r echo=TRUE}
+table(df$spectral_cluster, df$type)
+```
+
+
+# Profils Morphologiques
+
+## CAH
+
+Le groupe 4 se distingue nettement par des valeurs très élevées, traduisant une morphologie particulièrement développée. Le groupe 3 montre aussi une morphologie marquée, mais de manière plus modérée. Le groupe 1 correspond à un profil morphologique moyen, tandis que le groupe 2 regroupe les individus aux valeurs les plus faibles, représentant une morphologie réduite.
+
+         
+```{r echo=TRUE}
+aggregate(df_scale, by = list(cluster = df$ward_clusters), FUN = mean)
+```
+
+## K-means
+
+Le modèle K-means a identifié trois groupes distincts. Le groupe 2 présente des valeurs élevées, représentant des oiseaux à morphologie développée. Le groupe 3 regroupe des individus aux faibles valeurs, suggérant une morphologie réduite. Le groupe 1 montre des valeurs intermédiaires, correspondant à un profil morphologique moyen. Cette classification reflète une structure nette et cohérente des données.
+
+```{r echo=TRUE}
+aggregate(df_scale, by = list(cluster = df$kmean_clusters), FUN = mean)
+```
+
+## Méthode de mélanges
+
+Les clusters 1, 3 et 4 se distinguent par des valeurs moyennes élevées, suggérant des individus de grande taille ou aux caractéristiques marquées. À l’inverse, les clusters 5 à 9 présentent des valeurs plus faibles, indiquant des morphotypes plus petits ou moins développés. Le cluster 2, aux valeurs proches de zéro, pourrait correspondre à un groupe de transition morphologique.
+
+```{r echo=TRUE}
+aggregate(df_scale, by = list(cluster = df$melange_clusters), FUN = mean)
+```
+
+## Méthode Clustering spectral
+
+L’analyse des profils morphologiques issus du clustering spectral met en évidence une hétérogénéité structurée de la population aviaire étudiée. Chaque cluster reflète un morphotype distinct, allant de spécimens de petite taille (cluster 1) à des individus nettement plus imposants (cluster 6), en passant par des groupes intermédiaires présentant des particularités morphologiques marquées. Cette segmentation suggère l’existence de sous-populations bien différenciées, probablement liées à des adaptations écologiques, fonctionnelles ou évolutives spécifiques.
+
+```{r echo=TRUE}
+aggregate(df_scale, by = list(cluster = df$spectral_cluster), FUN = mean)
+```

@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Classification des Oiseaux | Projet</title>
+  <meta name="description" content="Chapter 2 Classification des Oiseaux | Projet" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Classification des Oiseaux | Projet" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Classification des Oiseaux | Projet" />
+  
+  
+  
+
+<meta name="author" content=" 22410464 OUEDRAOGO Teeg-wendé Inoussa   22407680 HASHAZINKA Orlana   22402636 MITOSSEDE Séphora " />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="favicon.jpg" type="image/x-icon" />
+<link rel="prev" href="index.html"/>
+<link rel="next" href="comparaison-des-résultats.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Table des matières</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prétraitement des Données</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#description-des-variables"><i class="fa fa-check"></i><b>1.1</b> Description des variables</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#les-lignes-incomplètes"><i class="fa fa-check"></i><b>1.2</b> Les lignes incomplètes</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#imputation-knn"><i class="fa fa-check"></i><b>1.3</b> Imputation knn</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="index.html"><a href="index.html#choix-du-meilleur-k"><i class="fa fa-check"></i><b>1.3.1</b> Choix du meilleur k</a></li>
+<li class="chapter" data-level="1.3.2" data-path="index.html"><a href="index.html#application-du-knn"><i class="fa fa-check"></i><b>1.3.2</b> Application du knn</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#normalisation-de-la-base"><i class="fa fa-check"></i><b>1.4</b> Normalisation de la base</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="classification-des-oiseaux.html"><a href="classification-des-oiseaux.html"><i class="fa fa-check"></i><b>2</b> Classification des Oiseaux</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="classification-des-oiseaux.html"><a href="classification-des-oiseaux.html#classification-ascendante-hiérarchique"><i class="fa fa-check"></i><b>2.1</b> Classification Ascendante Hiérarchique</a></li>
+<li class="chapter" data-level="2.2" data-path="classification-des-oiseaux.html"><a href="classification-des-oiseaux.html#k-means"><i class="fa fa-check"></i><b>2.2</b> K-means</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="classification-des-oiseaux.html"><a href="classification-des-oiseaux.html#méthode-du-coude-pour-choisir-k"><i class="fa fa-check"></i><b>2.2.1</b> Méthode du coude pour choisir k</a></li>
+<li class="chapter" data-level="2.2.2" data-path="classification-des-oiseaux.html"><a href="classification-des-oiseaux.html#clustering-avec-le-k-choisi"><i class="fa fa-check"></i><b>2.2.2</b> Clustering avec le k choisi</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="classification-des-oiseaux.html"><a href="classification-des-oiseaux.html#modèles-de-mélanges"><i class="fa fa-check"></i><b>2.3</b> Modèles de mélanges</a></li>
+<li class="chapter" data-level="2.4" data-path="classification-des-oiseaux.html"><a href="classification-des-oiseaux.html#clustering-spectral"><i class="fa fa-check"></i><b>2.4</b> Clustering spectral</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="classification-des-oiseaux.html"><a href="classification-des-oiseaux.html#choix-du-meilleur-k-méthode-de-silhouette"><i class="fa fa-check"></i><b>2.4.1</b> Choix du meilleur k (Méthode de silhouette)</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="comparaison-des-résultats.html"><a href="comparaison-des-résultats.html"><i class="fa fa-check"></i><b>3</b> Comparaison des Résultats</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="comparaison-des-résultats.html"><a href="comparaison-des-résultats.html#cah"><i class="fa fa-check"></i><b>3.1</b> CAH</a></li>
+<li class="chapter" data-level="3.2" data-path="comparaison-des-résultats.html"><a href="comparaison-des-résultats.html#k-means-1"><i class="fa fa-check"></i><b>3.2</b> K-means</a></li>
+<li class="chapter" data-level="3.3" data-path="comparaison-des-résultats.html"><a href="comparaison-des-résultats.html#méthode-de-mélanges"><i class="fa fa-check"></i><b>3.3</b> Méthode de mélanges</a></li>
+<li class="chapter" data-level="3.4" data-path="comparaison-des-résultats.html"><a href="comparaison-des-résultats.html#clustering-spectral-1"><i class="fa fa-check"></i><b>3.4</b> Clustering spectral</a></li>
+<li class="chapter" data-level="3.5" data-path="comparaison-des-résultats.html"><a href="comparaison-des-résultats.html#conclusion"><i class="fa fa-check"></i><b>3.5</b> Conclusion</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="clusters-vs-classes-réelles.html"><a href="clusters-vs-classes-réelles.html"><i class="fa fa-check"></i><b>4</b> Clusters vs Classes Réelles</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="clusters-vs-classes-réelles.html"><a href="clusters-vs-classes-réelles.html#cah-1"><i class="fa fa-check"></i><b>4.1</b> CAH</a></li>
+<li class="chapter" data-level="4.2" data-path="clusters-vs-classes-réelles.html"><a href="clusters-vs-classes-réelles.html#k-means-2"><i class="fa fa-check"></i><b>4.2</b> K-means</a></li>
+<li class="chapter" data-level="4.3" data-path="clusters-vs-classes-réelles.html"><a href="clusters-vs-classes-réelles.html#méthode-de-mélanges-1"><i class="fa fa-check"></i><b>4.3</b> Méthode de mélanges</a></li>
+<li class="chapter" data-level="4.4" data-path="clusters-vs-classes-réelles.html"><a href="clusters-vs-classes-réelles.html#clustering-spectral-2"><i class="fa fa-check"></i><b>4.4</b> Clustering spectral</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="profils-morphologiques.html"><a href="profils-morphologiques.html"><i class="fa fa-check"></i><b>5</b> Profils Morphologiques</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="profils-morphologiques.html"><a href="profils-morphologiques.html#cah-2"><i class="fa fa-check"></i><b>5.1</b> CAH</a></li>
+<li class="chapter" data-level="5.2" data-path="profils-morphologiques.html"><a href="profils-morphologiques.html#k-means-3"><i class="fa fa-check"></i><b>5.2</b> K-means</a></li>
+<li class="chapter" data-level="5.3" data-path="profils-morphologiques.html"><a href="profils-morphologiques.html#méthode-de-mélanges-2"><i class="fa fa-check"></i><b>5.3</b> Méthode de mélanges</a></li>
+<li class="chapter" data-level="5.4" data-path="profils-morphologiques.html"><a href="profils-morphologiques.html#méthode-clustering-spectral"><i class="fa fa-check"></i><b>5.4</b> Méthode Clustering spectral</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Projet</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="classification-des-oiseaux" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Classification des Oiseaux<a href="classification-des-oiseaux.html#classification-des-oiseaux" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="classification-ascendante-hiérarchique" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Classification Ascendante Hiérarchique<a href="classification-des-oiseaux.html#classification-ascendante-hiérarchique" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><strong>Objectif</strong> : Créer des groupes homogènes, la méthode de Ward ou le lien complet est préférable. Neanmoins testons plusieurs critères de fusion et cherchons à retenir le meilleur.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="classification-des-oiseaux.html#cb6-1" tabindex="-1"></a>dist_matrix <span class="ot">&lt;-</span> <span class="fu">dist</span>(df_scale)</span>
+<span id="cb6-2"><a href="classification-des-oiseaux.html#cb6-2" tabindex="-1"></a>methods <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;single&quot;</span>, <span class="st">&quot;complete&quot;</span>, <span class="st">&quot;average&quot;</span>, <span class="st">&quot;ward.D2&quot;</span>) <span class="co"># Méthodes de fusion</span></span>
+<span id="cb6-3"><a href="classification-des-oiseaux.html#cb6-3" tabindex="-1"></a>hc_list <span class="ot">&lt;-</span> <span class="fu">list</span>() <span class="co"># Liste pour stocker les résultats</span></span>
+<span id="cb6-4"><a href="classification-des-oiseaux.html#cb6-4" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="classification-des-oiseaux.html#cb6-5" tabindex="-1"></a><span class="co"># Application de la CAH avec chaque méthode</span></span>
+<span id="cb6-6"><a href="classification-des-oiseaux.html#cb6-6" tabindex="-1"></a><span class="cf">for</span> (m <span class="cf">in</span> methods) {</span>
+<span id="cb6-7"><a href="classification-des-oiseaux.html#cb6-7" tabindex="-1"></a>  hc <span class="ot">&lt;-</span> <span class="fu">hclust</span>(dist_matrix, <span class="at">method =</span> m)</span>
+<span id="cb6-8"><a href="classification-des-oiseaux.html#cb6-8" tabindex="-1"></a>  hc_list[[m]] <span class="ot">&lt;-</span> hc</span>
+<span id="cb6-9"><a href="classification-des-oiseaux.html#cb6-9" tabindex="-1"></a>}</span>
+<span id="cb6-10"><a href="classification-des-oiseaux.html#cb6-10" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="classification-des-oiseaux.html#cb6-11" tabindex="-1"></a>ward_clusters <span class="ot">&lt;-</span> <span class="fu">cutree</span>(hc_list[[<span class="st">&quot;ward.D2&quot;</span>]], <span class="at">k =</span> <span class="dv">4</span>)</span>
+<span id="cb6-12"><a href="classification-des-oiseaux.html#cb6-12" tabindex="-1"></a>df<span class="sc">$</span>ward_clusters <span class="ot">&lt;-</span> ward_clusters</span></code></pre></div>
+</div>
+<div id="k-means" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> K-means<a href="classification-des-oiseaux.html#k-means" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="méthode-du-coude-pour-choisir-k" class="section level3 hasAnchor" number="2.2.1">
+<h3><span class="header-section-number">2.2.1</span> Méthode du coude pour choisir k<a href="classification-des-oiseaux.html#méthode-du-coude-pour-choisir-k" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><img src="FILENAME_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p><br />
+</p>
+<p><strong>choix du k</strong> : 3</p>
+</div>
+<div id="clustering-avec-le-k-choisi" class="section level3 hasAnchor" number="2.2.2">
+<h3><span class="header-section-number">2.2.2</span> Clustering avec le k choisi<a href="classification-des-oiseaux.html#clustering-avec-le-k-choisi" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="classification-des-oiseaux.html#cb7-1" tabindex="-1"></a>kmean_clusters <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(df_scale, <span class="at">centers =</span> <span class="dv">3</span>, <span class="at">nstart =</span> <span class="dv">25</span>)</span>
+<span id="cb7-2"><a href="classification-des-oiseaux.html#cb7-2" tabindex="-1"></a>df<span class="sc">$</span>kmean_clusters <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(kmean_clusters<span class="sc">$</span>cluster)</span></code></pre></div>
+</div>
+</div>
+<div id="modèles-de-mélanges" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> Modèles de mélanges<a href="classification-des-oiseaux.html#modèles-de-mélanges" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="classification-des-oiseaux.html#cb8-1" tabindex="-1"></a>gmm <span class="ot">&lt;-</span> <span class="fu">Mclust</span>(df_scale) <span class="co"># Application du modèle de mélange gaussien</span></span>
+<span id="cb8-2"><a href="classification-des-oiseaux.html#cb8-2" tabindex="-1"></a>df<span class="sc">$</span>melange_clusters <span class="ot">&lt;-</span> gmm<span class="sc">$</span>classification</span></code></pre></div>
+</div>
+<div id="clustering-spectral" class="section level2 hasAnchor" number="2.4">
+<h2><span class="header-section-number">2.4</span> Clustering spectral<a href="classification-des-oiseaux.html#clustering-spectral" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="choix-du-meilleur-k-méthode-de-silhouette" class="section level3 hasAnchor" number="2.4.1">
+<h3><span class="header-section-number">2.4.1</span> Choix du meilleur k (Méthode de silhouette)<a href="classification-des-oiseaux.html#choix-du-meilleur-k-méthode-de-silhouette" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><img src="FILENAME_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><strong>choix du k</strong> : 6</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="classification-des-oiseaux.html#cb9-1" tabindex="-1"></a>spectral_res <span class="ot">&lt;-</span> <span class="fu">specc</span>(df_scale, <span class="at">centers =</span> <span class="dv">6</span>)</span>
+<span id="cb9-2"><a href="classification-des-oiseaux.html#cb9-2" tabindex="-1"></a>df<span class="sc">$</span>spectral_cluster <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(spectral_res)</span></code></pre></div>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="comparaison-des-résultats.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": false,
+    "facebook": false,
+    "twitter": false,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "whatsapp", "linkedin", "weibo"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": null,
+    "text": null
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["FILENAME.pdf", "FILENAME.epub"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
+});
+});
+</script>
+
+</body>
+
+</html>
