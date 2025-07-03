@@ -58,7 +58,7 @@ L’objectif est de découvrir des regroupements naturels et d’interpréter le
 
 **Teeg-wendé Inoussa Ouedraogo**  
 Étudiant en Master 1 MAS — Université Rennes 2  
-📧 [inoussa.teeg@example.com](mailto:inoussa.teeg@example.com)
+📧 [teeg-wende-inoussa.ouedraogo@etudiant.univ-rennes2.fr](mailto:teeg-wende-inoussa.ouedraogo@etudiant.univ-rennes2.fr)
 
 ---
 
