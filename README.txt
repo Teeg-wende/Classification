@@ -16,18 +16,20 @@ L’objectif est de découvrir des regroupements naturels et d’interpréter le
 
 ## 📁 Structure du dépôt
 
+```
 .
-├── data/ # Données source (bird.csv)
-├── docs/ # Export HTML via bookdown
-├── FILENAME_files/ # Graphiques générés (bookdown)
-├── Numero_etudiants.json # Informations sur les membres du groupe
-├── fonctions.R # Fonctions d'analyse
-├── index.Rmd # Rapport principal (bookdown)
-├── style.css # Feuille de style personnalisée
-├── README.md # Présentation du projet (ce fichier)
-├── LICENSE # Informations légales
-├── _bookdown.yml # Configuration de bookdown
-├── _output.yml # Options de rendu (HTML/PDF)
+├── data/                    # Données source (bird.csv)
+├── docs/                    # Export HTML via bookdown
+├── FILENAME_files/          # Graphiques générés (bookdown)
+├── Numero_etudiants.json    # Informations sur les membres du groupe
+├── fonctions.R              # Fonctions d'analyse
+├── index.Rmd                # Rapport principal (bookdown)
+├── style.css                # Feuille de style personnalisée
+├── README.md                # Ce fichier
+├── LICENSE                  # Informations légales
+├── _bookdown.yml            # Configuration de bookdown
+├── _output.yml              # Options de rendu (HTML/PDF)
+```
 
 ---
 
@@ -56,7 +58,7 @@ L’objectif est de découvrir des regroupements naturels et d’interpréter le
 
 **Teeg-wendé Inoussa Ouedraogo**  
 Étudiant en Master 1 MAS — Université Rennes 2  
-📧 [teeg-wende-inoussa.ouedraogo@etudiant.univ-rennes2.fr](mailto:teeg-wende-inoussa.ouedraogo@etudiant.univ-rennes2.fr)
+📧 [inoussa.teeg@example.com](mailto:inoussa.teeg@example.com)
 
 ---
 
